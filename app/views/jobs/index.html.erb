@@ -1,0 +1,21 @@
+<h1>Listing jobs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%= @jobs.each do |job| %>
+      <tr>
+        <% job %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
