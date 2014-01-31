@@ -10,12 +10,25 @@
   </thead>
 
   <tbody>
-    <%= @jobs.each do |job| %>
+    <% @jobs.each do |job| %>
       <tr>
-        <% job %>
+        <td>
+          <%= job["title"] %>
+          &nbsp;&nbsp;&nbsp;
+          <%= job["location"] %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= link_to job["url"], job["url"]  %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <br>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
 <br>
