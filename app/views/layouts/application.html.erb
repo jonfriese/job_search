@@ -47,6 +47,15 @@
             <span class="icon-bar"></span>
           </a>
           <%= link_to JobSearch, root_path, html_options = {class: "brand"} %>
+          <% if @keywords.empty? && @location.empty? %>
+            <p class="brand"> Listing All Jobs <p>
+          <% elsif @keywords.empty? %>
+            Listing All Jobs in <%= params[:location] %>
+          <% elsif @location.empty? %>
+            Listing All Jobs for keyword(s):[<%= params[:keywords] %>]
+          <% else %>
+            <p class="brand" id="brand-center"><%= "Listing jobs in " + params[:location] + " for keyword(s): " + params[:keywords] %></p> 
+          <% end %>
         </div>
       </div>
     </div>
