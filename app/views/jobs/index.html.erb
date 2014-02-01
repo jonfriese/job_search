@@ -1,34 +1,26 @@
-<h1>Listing jobs</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @jobs.each do |job| %>
-      <tr>
-        <td>
-          <%= job["title"] %>
-          &nbsp;&nbsp;&nbsp;
-          <%= job["location"] %>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <%= link_to job["url"], job["url"]  %>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <br>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<% if @keywords.empty? && @location.empty? %>
+  <center><h1> Listing All Jobs </h1></center>
+<% elsif @keywords.empty? %>
+  <center><h1> Listing All Jobs in <%= params[:location] %> </h1></center>
+<% elsif @location.empty? %>
+  <center><h1> Listing All Jobs for keyword(s):[<%= params[:keywords] %>] </h1></center>
+<% else %>
+  <center><h1><%= "Listing jobs in " + params[:location] + " for keyword(s): " + params[:keywords] %></h1></center>
+<% end %>
 <br>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span5">
+      <center><%= image_tag "github_jobs.png" %></center> <br>       
+      <% @github_jobs.each do |job| %>
+        <%= link_to "#{job['title']} (#{job['location']})", job["url"]  %> <br><br>
+      <% end %>    
+    </div>
+    <div class="span5">
+      <center><%= image_tag "stackoverflow.jpg" %></center><br>
+      <% @stackoverflow_jobs.each do |job| %>
+        <%= link_to job["title"] , job["link"]  %> <br><br>
+      <% end %>       
+    </div>
+  </div>
+</div>
