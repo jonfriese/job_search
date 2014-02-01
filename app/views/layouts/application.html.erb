@@ -54,7 +54,7 @@
           <% elsif @location.empty? %>
             Listing All Jobs for keyword(s):[<%= params[:keywords] %>]
           <% else %>
-            <p class="brand" id="brand-center"><%= "Listing jobs in " + params[:location] + " for keyword(s): " + params[:keywords] %></p> 
+            <p class="brand"><%= "Listing jobs in " + params[:location] + " for keyword(s): " + params[:keywords] %></p> 
           <% end %>
         </div>
       </div>
