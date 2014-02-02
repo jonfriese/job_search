@@ -1,0 +1,26 @@
+
+[1mFrom:[0m /home/jon/rails/job_search/app/controllers/jobs_controller.rb @ line 12 JobsController#index:
+
+     [1;34m5[0m: [32mdef[0m [1;34mindex[0m
+     [1;34m6[0m:   @keywords = params[[33m:keywords[0m].tr([31m[1;31m"[0m[31m [1;31m"[0m[31m[0m, [31m[1;31m"[0m[31m+[1;31m"[0m[31m[0m)
+     [1;34m7[0m:   @location = params[[33m:location[0m].tr([31m[1;31m"[0m[31m [1;31m"[0m[31m[0m, [31m[1;31m"[0m[31m[1;31m"[0m[31m[0m)
+     [1;34m8[0m:   github_response = [1;34;4mHTTParty[0m.get([31m[1;31m"[0m[31mhttp://jobs.github.com/positions.json?description=#{@keywords}[0m[31m&location=#{@location}[0m[31m[1;31m"[0m[31m[0m)
+     [1;34m9[0m:   stackoverflow_response = [1;34;4mHTTParty[0m.get([31m[1;31m"[0m[31mhttp://careers.stackoverflow.com/jobs/feed?searchTerm=#{@keywords}[0m[31m&location=#{@location}[0m[31m&sort=p[1;31m"[0m[31m[0m)
+    [1;34m10[0m:   [32mif[0m [31m[1;31m%w([0m[31mruby rails[1;31m)[0m[31m[0m.any? {|str| params[[33m:keywords[0m].downcase.include? str}
+    [1;34m11[0m:     ruby_now_response = [1;34;4mHTTParty[0m.get([31m[1;31m"[0m[31mhttp://feeds.feedburner.com/jobsrubynow?format=xml[1;31m"[0m[31m[0m)
+ => [1;34m12[0m:     binding.pry
+    [1;34m13[0m:     [32mif[0m @location.empty?
+    [1;34m14[0m:       @ruby_now_jobs = manipulate_xml(ruby_now_response)
+    [1;34m15[0m:     [32melse[0m
+    [1;34m16[0m:       @ruby_now_jobs = manipulate_xml(ruby_now_response)
+    [1;34m17[0m:       @ruby_now_jobs.select! {|k,v| k.include? @location}
+    [1;34m18[0m:     [32mend[0m
+    [1;34m19[0m: 
+    [1;34m20[0m:   [32melse[0m
+    [1;34m21[0m:     @ruby_now_jobs = []
+    [1;34m22[0m:   [32mend[0m
+    [1;34m23[0m:   pre_stackoverflow = [1;34;4mHash[0m.from_xml(stackoverflow_response)
+    [1;34m24[0m:   @github_jobs = [1;34;4mJSON[0m.parse(github_response.body)
+    [1;34m25[0m:   @stackoverflow_jobs = manipulate_xml(pre_stackoverflow)
+    [1;34m26[0m: [32mend[0m
+

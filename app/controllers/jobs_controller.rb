@@ -9,7 +9,17 @@ respond_to :html, :json
     stackoverflow_response = HTTParty.get("http://careers.stackoverflow.com/jobs/feed?searchTerm=#{@keywords}&location=#{@location}&sort=p")
     if %w(ruby rails).any? {|str| params[:keywords].downcase.include? str}
       ruby_now_response = HTTParty.get("http://feeds.feedburner.com/jobsrubynow?format=xml")
-      @ruby_now_jobs = manipulate_xml(ruby_now_response)
+      if @location.empty?
+        @ruby_now_jobs = manipulate_xml(ruby_now_response)
+      else
+        @ruby_now_jobs = []
+        @now_jobs = manipulate_xml(ruby_now_response)
+        @now_jobs.map do |job|
+          if job['title'].downcase.include? params[:location].downcase
+            @ruby_now_jobs << job
+          end
+        end
+      end
     else
       @ruby_now_jobs = []
     end
