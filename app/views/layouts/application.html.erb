@@ -11,16 +11,19 @@
   </head>
   <body>
     <div class="navbar navbar-fluid-top">
-
       <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>         
-          <%= link_to JobSearch, root_path, html_options = {class: "brand"} %>
-          <% if params[:keywords] && params[:location] %>
+        <div class="container-fluid">        
+          <%= link_to JobSearch, root_path, html_options = {class: "brand", style: "float: right"} %>
+          <div class="form-inline">      
+            <%= form_tag jobs_path, method: 'get', style: "float: left" do %>
+              <%= label_tag(:keywords, "Key Words") %>
+              <%= text_field_tag(:keywords) %> &nbsp
+              <%= label_tag(:location, "City") %>
+              <%= text_field_tag(:location) %>
+              <%= submit_tag "Search", class: "btn" %> &nbsp
+            <% end %>
+          </div>
+          <% if @keywords && @location %>
             <% if params[:keywords].empty? && params[:location].empty? %>
               <p class="brand"> Listing All Jobs <p>
             <% elsif params[:keywords].empty? %>
