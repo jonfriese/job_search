@@ -15,40 +15,23 @@
         <div class="container-fluid">        
           <%= link_to JobSearch, root_path, html_options = {class: "brand", style: "float: right"} %>
           <div class="form-inline">      
-            <%= form_tag jobs_path, method: 'get', style: "float: left" do %>
+            <%= form_tag(jobs_path, method: 'get', style: "float: left") do %>
               <%= label_tag(:keywords, "Key Words") %>
               <%= text_field_tag(:keywords) %> &nbsp
               <%= label_tag(:location, "City") %>
               <%= text_field_tag(:location) %>
-              <%= submit_tag "Search", class: "btn" %> &nbsp
+              <%= submit_tag("Search", class: "btn") %> &nbsp
             <% end %>
           </div>
-          <% if @keywords && @location %>
-            <% if params[:keywords].empty? && params[:location].empty? %>
-              <p class="brand"> Listing All Jobs <p>
-            <% elsif params[:keywords].empty? %>
-              Listing All Jobs in <%= params[:location] %>
-            <% elsif params[:location].empty? %>
-              Listing All Jobs for keyword(s):[<%= params[:keywords] %>]
-            <% else %>
-              <p class="brand"><%= "Listing jobs in " + params[:location] + " for keyword(s): " + params[:keywords] %></p> 
-            <% end %>
-          <% end %>
         </div>
       </div>
     </div>
-
     <div class="container-fluid">
-        <div class="row-fluid">
-          <div>
-            <%= yield %>
-          </div>
-        </div><!--/row-->
-
-      <footer>
-      </footer>
-
-    </div> <!-- /container -->
-
+      <div class="row-fluid">
+        <div>
+          <%= yield %>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

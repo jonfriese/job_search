@@ -1,28 +1,40 @@
 <br>
 <div class="container-fluid">
   <div class="row-fluid">
-    <div class="span5 well">
-      <center><%= image_tag "ruby_now.png" %></center>
-      <% @ruby_now_jobs.each do |job| %>
-        <br><br>
-        <%= link_to job["title"] , job["origLink"]  %> 
-      <% end %>       
-    </div>
-    <div class="span2 well">
-      <%= image_tag "github_jobs.png" %>     
-      <% @github_jobs.each do |job| %>
-        <br><br>
-        <%= link_to "#{job['title']} (#{job['location']})", job["url"]  %>
+    <% if @github_jobs.present? %>
+      <div class="span4 well pre-scrollable">
+        <center><%= image_tag "github_jobs.png" %></center>
+        <% @github_jobs.each do |job| %>
+          <%= link_to "#{job['title']} at #{job['company']} (#{job['location']})", job["url"]  %>
+          <br>
+          <%= job["created_at"] %>
+          <br><br>
+        <% end %>
+      </div>
+    <% end %>
+    <% if @stackoverflow_jobs.present? %>
+      <div class="span4 well pre-scrollable">
+        <center><%= image_tag "stackoverflow.jpg" %></center>
         <br>
-        <%= "-" + job["company"] %>
-      <% end %>    
-    </div>
-    <div class="span3 well">
-      <center><%= image_tag "stackoverflow.jpg" %></center>
-      <% @stackoverflow_jobs.each do |job| %>
-        <br><br>
-        <%= link_to job["title"] , job["link"]  %> 
-      <% end %>       
-    </div>
+        <% @stackoverflow_jobs.each do |job| %>
+          <%= link_to job["title"] , job["link"]  %>
+          <br>
+          <%= job["updated"] %>
+          <br><br>
+        <% end %>
+      </div>
+    <% end %>
+    <% if @ruby_now_jobs.present? %>
+      <div class="span4 well pre-scrollable">
+        <center><%= image_tag "ruby_now.png" %></center>
+        <br>
+        <% @ruby_now_jobs.each do |job| %>
+          <%= link_to job["title"] , job["origLink"]  %>
+          <br>
+          <%= job["pubDate"] %>
+          <br><br>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>
