@@ -1,16 +1,27 @@
 <br>
 <div class="container-fluid">
   <div class="row-fluid">
-    <div class="span5">
-      <center><%= image_tag "github_jobs.png" %></center> <br>       
+    <div class="span5 well">
+      <center><%= image_tag "ruby_now.png" %></center>
+      <% @ruby_now_jobs.each do |job| %>
+        <br><br>
+        <%= link_to job["title"] , job["origLink"]  %> 
+      <% end %>       
+    </div>
+    <div class="span2 well">
+      <%= image_tag "github_jobs.png" %>     
       <% @github_jobs.each do |job| %>
-        <%= link_to "#{job['title']} (#{job['location']})", job["url"]  %> <br><br>
+        <br><br>
+        <%= link_to "#{job['title']} (#{job['location']})", job["url"]  %>
+        <br>
+        <%= "-" + job["company"] %>
       <% end %>    
     </div>
-    <div class="span5">
-      <center><%= image_tag "stackoverflow.jpg" %></center><br>
+    <div class="span3 well">
+      <center><%= image_tag "stackoverflow.jpg" %></center>
       <% @stackoverflow_jobs.each do |job| %>
-        <%= link_to job["title"] , job["link"]  %> <br><br>
+        <br><br>
+        <%= link_to job["title"] , job["link"]  %> 
       <% end %>       
     </div>
   </div>

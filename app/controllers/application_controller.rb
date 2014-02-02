@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  def manipulate_stackoverflow_xml(data)
+  def manipulate_xml(data)
   	x = data["rss"]
   	y = x["channel"]
   	if y["totalResults"] == "0"
