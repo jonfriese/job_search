@@ -7,6 +7,7 @@ gem 'twitter-bootstrap-rails'
 gem 'httparty'
 gem 'pry'
 gem 'figaro'
+gem 'rdf'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

@@ -1,5 +1,7 @@
 class JobsController < ApplicationController
 respond_to :html, :json
+require 'rss'
+require 'open-uri'
   # GET /jobs
   # GET /jobs.json
   def index
@@ -8,6 +10,16 @@ respond_to :html, :json
     github_response = HTTParty.get("http://jobs.github.com/positions.json?description=#{@keywords}&location=#{@location}")
     stackoverflow_response = HTTParty.get("http://careers.stackoverflow.com/jobs/feed?searchTerm=#{@keywords}&location=#{@location}")
     authentic_response = HTTParty.get("http://www.authenticjobs.com/api/?api_key=#{ENV["AUTHENTIC_JOBS_API_KEY"]}&method=aj.jobs.search&keywords=#{@keywords}&location=#{@location}&perpage=20&begin_date=#{1.week.ago.to_i}&format=json")
+    if @location.present?
+      begin
+        craigslist_url = "http://#{@location}.craigslist.org/search/jjj?catAbb=jjj&query=#{@keywords}&s=0&format=rss"
+        open(craigslist_url) do |rss|
+          @craigslist_jobs = RSS::Parser.parse(rss).items
+        end
+      rescue SocketError
+        @craigslist_jobs = []
+      end
+    end
     if %w(ruby rails).any? {|str| params[:keywords].downcase.include? str}
       ruby_now_response = HTTParty.get("http://feeds.feedburner.com/jobsrubynow?format=xml")
       if @location.empty?
