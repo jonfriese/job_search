@@ -18,6 +18,8 @@ require 'open-uri'
         end
       rescue SocketError
         @craigslist_jobs = []
+      rescue OpenURI::HTTPError
+        @craigslist_jobs = []
       end
     end
     if %w(ruby rails).any? {|str| params[:keywords].downcase.include? str}
