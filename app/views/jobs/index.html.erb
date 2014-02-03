@@ -19,7 +19,7 @@
         <% @stackoverflow_jobs.each do |job| %>
           <%= link_to job["title"] , job["link"]  %>
           <br>
-          <%= job["updated"] %>
+          <%= job["pubDate"][0..-11] %>
           <br><br>
         <% end %>
       </div>
@@ -32,6 +32,23 @@
           <%= link_to job["title"] , job["origLink"]  %>
           <br>
           <%= job["pubDate"] %>
+          <br><br>
+        <% end %>
+      </div>
+    <% end %>
+    <% if @authentic_jobs.present? %>
+      <div class="span4 well pre-scrollable">
+        <center><%= image_tag "authentic_jobs.png" %></center>
+        <br>
+        <% @authentic_jobs["listings"]["listing"].each do |job| %>
+          <% if job["company"].present? %>
+            <% company = " at " + job["company"]["name"] %>
+          <% else %>
+            <% company = "" %>
+          <% end %>
+          <%= link_to job["title"] + company, job["url"] %>
+          <br>
+          <%= job["post_date"] %>
           <br><br>
         <% end %>
       </div>
