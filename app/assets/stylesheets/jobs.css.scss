@@ -5,3 +5,11 @@
 .well {
    background-color: white;
 }
+
+.row-fluid [class*="span"]:nth-child(3n+1) {
+   margin-left: 0;
+}
+
+.pre-scrollable {
+	height: 350px;
+}
