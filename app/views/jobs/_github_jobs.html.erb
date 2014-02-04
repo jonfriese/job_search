@@ -1,0 +1,11 @@
+<% if @github_jobs.present? %>
+  <div class="span4 well pre-scrollable">
+    <center><%= image_tag "github_jobs.png" %></center>
+    <% @github_jobs.each do |job| %>
+      <%= link_to "#{job['title']} at #{job['company']} (#{job['location']})", job["url"]  %>
+      <br>
+      <%= job["created_at"][0..-19] %>
+      <br><br>
+    <% end %>
+  </div>
+<% end %>

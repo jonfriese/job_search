@@ -9,7 +9,7 @@ JobSearch::Application.routes.draw do
   root 'home#index'
 
   # Example of regular route:
-  get 'contact' => 'static_pages#contact'
+  get 'add' => 'static_pages#add'
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 

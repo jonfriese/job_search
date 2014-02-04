@@ -1,0 +1,12 @@
+<% if @craigslist_jobs.present? %>
+  <div class="span4 well pre-scrollable">
+    <center><%= image_tag "craigslist_jobs.gif" %></center>
+    <br>
+    <% @craigslist_jobs.each do |job| %>
+      <%= link_to job.dc_title, job.dc_source %>
+      <br>
+      <%= job.dc_date.strftime("%d %b, %Y") %>
+      <br><br>
+    <% end %>
+  </div>
+<% end %>

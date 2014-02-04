@@ -13,7 +13,7 @@
     <div class="navbar navbar-fluid-top">
       <div class="navbar-inner">
         <div class="container-fluid">        
-          <%= link_to JobSearch, root_path, html_options = {class: "brand", style: "float: right"} %>
+          <%= link_to 'Add a Job Board', add_path, html_options = {class: "brand", style: "float: right"} %>
           <div class="form-inline">      
             <%= form_tag(jobs_path, method: 'get', style: "float: left") do %>
               <%= label_tag(:keywords, "Key Words") %>

@@ -9,7 +9,7 @@ gem 'httparty'
 gem 'pry'
 gem 'figaro'
 gem 'rails_12factor', group: :production
-
+gem 'actionpack-action_caching'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 

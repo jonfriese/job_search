@@ -1,0 +1,12 @@
+<% if @stackoverflow_jobs.present? %>
+  <div class="span4 well pre-scrollable">
+    <center><%= image_tag "stackoverflow.jpg" %></center>
+      <br>
+      <% @stackoverflow_jobs.each do |job| %>
+          <%= link_to job["title"] , job["link"]  %>
+          <br>
+          <%= job["pubDate"][0..-11] %>
+          <br><br>
+    <% end %>
+  </div>
+<% end %>

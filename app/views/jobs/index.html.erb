@@ -1,69 +1,10 @@
 <br>
 <div class="container-fluid">
-  <div class="row-fluid">
-    <% if @github_jobs.present? %>
-      <div class="span4 well pre-scrollable">
-        <center><%= image_tag "github_jobs.png" %></center>
-        <% @github_jobs.each do |job| %>
-          <%= link_to "#{job['title']} at #{job['company']} (#{job['location']})", job["url"]  %>
-          <br>
-          <%= job["created_at"] %>
-          <br><br>
-        <% end %>
-      </div>
-    <% end %>
-    <% if @stackoverflow_jobs.present? %>
-      <div class="span4 well pre-scrollable">
-        <center><%= image_tag "stackoverflow.jpg" %></center>
-        <br>
-        <% @stackoverflow_jobs.each do |job| %>
-          <%= link_to job["title"] , job["link"]  %>
-          <br>
-          <%= job["pubDate"][0..-11] %>
-          <br><br>
-        <% end %>
-      </div>
-    <% end %>
-    <% if @ruby_now_jobs.present? %>
-      <div class="span4 well pre-scrollable">
-        <center><%= image_tag "ruby_now.png" %></center>
-        <br>
-        <% @ruby_now_jobs.each do |job| %>
-          <%= link_to job["title"] , job["origLink"]  %>
-          <br>
-          <%= job["pubDate"] %>
-          <br><br>
-        <% end %>
-      </div>
-    <% end %>
-    <% unless @authentic_jobs["listings"]["total"] == 0 %>
-      <div class="span4 well pre-scrollable">
-        <center><%= image_tag "authentic_jobs.png" %></center>
-        <br>
-        <% @authentic_jobs["listings"]["listing"].each do |job| %>
-          <% if job["company"].present? %>
-            <% company = " at " + job["company"]["name"] %>
-          <% else %>
-            <% company = "" %>
-          <% end %>
-          <%= link_to job["title"] + company, job["url"] %>
-          <br>
-          <%= job["post_date"] %>
-          <br><br>
-        <% end %>
-      </div>
-    <% end %>
-    <% if @craigslist_jobs.present? %>
-      <div class="span4 well pre-scrollable">
-        <center><%= image_tag "craigslist_jobs.gif" %></center>
-        <br>
-        <% @craigslist_jobs.each do |job| %>
-          <%= link_to job.dc_title, job.dc_source %>
-          <br>
-          <%= job.dc_date %>
-          <br><br>
-        <% end %>
-      </div>
-    <% end %>
+  <div class="row-fluid", id="wells">
+    <%= render "github_jobs" %>
+    <%= render "stackoverflow_jobs" %>
+    <%= render "ruby_now_jobs" %>
+    <%= render "authentic_jobs" %>
+    <%= render "craigslist_jobs" %>
   </div>
 </div>
