@@ -1,9 +1,10 @@
 <% if @ruby_now_jobs.present? %>
   <div class="span4 well pre-scrollable">
     <center><%= image_tag "ruby_now.png" %></center>
-    <br>
+    <br>   
     <% @ruby_now_jobs.each do |job| %>
-      <%= link_to job["title"] , job["origLink"]  %>
+      <% job["title"].gsub!("at:", "-") %>
+      <%= link_to job["title"], job["origLink"]  %>
       <br>
       <%= job["pubDate"][0..-13] %>
       <br><br>

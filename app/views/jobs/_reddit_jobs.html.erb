@@ -1,14 +1,13 @@
-<% if @reddit_jobs["data"]["children"].present? %>
+<% if @reddit_jobs.present? %>
   <div class="span4 well pre-scrollable">
     <center><%= image_tag "reddit_jobs.svg" %></center>
     <br>
-    <% @reddit_jobs["data"]["children"].each do |job| %>
-	    <% if job["data"]["link_flair_text"] == "Hiring" %>
-	      <%= link_to job["data"]["title"], job["data"]["url"]  %>
-	      <br>
-	      <%= Time.at(job["data"]["created_utc"]).strftime("%d %b, %Y") %>
-	      <br><br>
-	    <% end %>
+    <% @reddit_jobs.each do |job| %>
+      <%= link_to job["data"]["title"], job["data"]["url"]  %>
+      <br>
+      <%= Time.at(job["data"]["created_utc"]).strftime("%d %b, %Y") %>
+      <br><br>
     <% end %>
   </div>
 <% end %>
+

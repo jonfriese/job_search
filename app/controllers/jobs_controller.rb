@@ -10,10 +10,14 @@ class JobsController < ApplicationController
   def index
     @keywords = params[:keywords].tr(" ", "+").gsub("#", "%23")
     @location = params[:location].tr(" ", "")
-    github_response = HTTParty.get("http://jobs.github.com/positions.json?description=#{@keywords}&location=#{@location}")
-    stackoverflow_response = HTTParty.get("http://careers.stackoverflow.com/jobs/feed?searchTerm=#{@keywords}&location=#{@location}")
-    reddit_response = HTTParty.get("http://www.reddit.com/r/forhire/search.json?q=#{@keywords}+#{@location}&sort=new&restrict_sr=on&t=week")
-    authentic_response = HTTParty.get("http://www.authenticjobs.com/api/?api_key=#{ENV["AUTHENTIC_JOBS_API_KEY"]}&method=aj.jobs.search&keywords=#{@keywords}&location=#{@location}&perpage=20&begin_date=#{1.week.ago.to_i}&format=json")
+    
+    #Reddit needs keywords or else it will search all kinds of jobs and we need to filter out 'For Hire' posts
+    if @keywords.present?
+      reddit_response = HTTParty.get("http://www.reddit.com/r/forhire/search.json?q=#{@keywords}+#{@location}&sort=new&restrict_sr=on&t=month")
+      reddit_jobs_pre = JSON.parse(reddit_response.body)["data"]["children"]
+      @reddit_jobs = reddit_jobs_pre.select { |job| job["data"]["link_flair_text"] == "Hiring" }
+    end
+    
     #get jobs from Craigslist
     if @location.present?
       begin
@@ -29,6 +33,7 @@ class JobsController < ApplicationController
         @craigslist_jobs = []
       end
     end
+
     #get jobs from Ruby Now if search contains Ruby or Rails
     if %w(ruby rails).any? {|str| params[:keywords].downcase.include? str} || params[:keywords].empty?
       ruby_now_response = HTTParty.get("http://feeds.feedburner.com/jobsrubynow?format=xml")
@@ -46,10 +51,15 @@ class JobsController < ApplicationController
     else
       @ruby_now_jobs = []
     end
+
+    stackoverflow_response = HTTParty.get("http://careers.stackoverflow.com/jobs/feed?searchTerm=#{@keywords}&location=#{@location}")
     pre_stackoverflow = Hash.from_xml(stackoverflow_response)
     @stackoverflow_jobs = manipulate_xml(pre_stackoverflow).sort_by { |job| job["updated"] }.reverse
+
+    authentic_response = HTTParty.get("http://www.authenticjobs.com/api/?api_key=#{ENV["AUTHENTIC_JOBS_API_KEY"]}&method=aj.jobs.search&keywords=#{@keywords}&location=#{@location}&perpage=20&begin_date=#{1.month.ago.to_i}&format=json")
     @authentic_jobs = JSON.parse(authentic_response.body)
-    @reddit_jobs = JSON.parse(reddit_response.body)
+
+    github_response = HTTParty.get("http://jobs.github.com/positions.json?description=#{@keywords}&location=#{@location}")    
     @github_jobs = JSON.parse(github_response.body)
   end
 end
