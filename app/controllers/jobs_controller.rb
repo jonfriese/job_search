@@ -84,8 +84,12 @@ class JobsController < ApplicationController
       github_remote_jobs = JSON.parse(github_remote_response.body)
       github_remote_jobs.each do |job|
         @github_jobs << job
-      end
+      end      
       @github_jobs.uniq! { |job| job["url"] }
+      @github_jobs.each do |job|
+        job[:time] = Time.parse(job["created_at"])
+      end
+      @github_jobs = @github_jobs.sort_by { |job| job[:time] }.reverse
     end
 
     #we_work_remotely_jobs
