@@ -3,10 +3,13 @@
     <center><%= image_tag "authentic_jobs.png" %></center>
     <br>
     <% @authentic_jobs["listings"]["listing"].each do |job| %>
-      <% if job["company"].present? %>
-        <% company = " at " + job["company"]["name"] %>
+      <% if job["company"].present? && job["company"]["location"].present? %>
+        <% company = " at " + job["company"]["name"] + " (#{job["company"]["location"]["city"]})" %>
       <% else %>
         <% company = "" %>
+      <% end %>
+      <% if job["telecommuting"] == 1 %>
+        <% company << " (remote)" %>
       <% end %>
       <%= link_to job["title"] + company, job["url"] %>
       <br>
