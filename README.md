@@ -8,7 +8,7 @@ This is a job board aggregator. Currently it searches:
 
 -Github Jobs
 
--Ruby Now
+-Ruby Now - requires keyword(s) to search
 
 -Authentic Jobs
 
@@ -16,6 +16,6 @@ This is a job board aggregator. Currently it searches:
 
 -We Work Remotely
 
--Craigslist*
+-Craigslist* -requires location and keyword(s) to search
 
 *Craigslist blocks requests from EC2 so Craigslist results will not be yielded from the Heroku app, as of right now. EDIT: It just started working, so we'll see. It might work and it might not.

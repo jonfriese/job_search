@@ -16,7 +16,7 @@
           <%= link_to 'Add a Job Board', add_path, html_options = {class: "brand", style: "float: right"} %>
           <div class="form-inline">      
             <%= form_tag(jobs_path, method: 'get', style: "float: left") do %>
-              <%= label_tag(:keywords, "Key Words") %>
+              <%= label_tag(:keywords, "Keyword(s)") %>
               <%= text_field_tag(:keywords) %> &nbsp
               <%= label_tag(:location, "City") %>
               <%= text_field_tag(:location) %>
