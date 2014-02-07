@@ -8,6 +8,11 @@ class JobsController < ApplicationController
 
 
   def index
+    if params[:remote] == 1
+      @remote = 'true'
+    else
+      @remote = 'false'
+    end
     @keywords = params[:keywords].tr(" ", "+").gsub("#", "%23")
     @location = params[:location].tr(" ", "")
     
@@ -53,13 +58,25 @@ class JobsController < ApplicationController
     end
 
     stackoverflow_response = HTTParty.get("http://careers.stackoverflow.com/jobs/feed?searchTerm=#{@keywords}&location=#{@location}")
-    pre_stackoverflow = Hash.from_xml(stackoverflow_response)
-    @stackoverflow_jobs = manipulate_xml(pre_stackoverflow).sort_by { |job| job["updated"] }.reverse
+    pre_stackoverflow = manipulate_xml(Hash.from_xml(stackoverflow_response))
+
+    if @location.present? && params[:remote] == "1"
+      stackoverflow_response_remote = HTTParty.get("http://careers.stackoverflow.com/jobs/feed?allowsremote=true")
+      pre_stackoverflow_remote = manipulate_xml(Hash.from_xml(stackoverflow_response_remote))
+      pre_stackoverflow_remote.each do |job|
+        pre_stackoverflow << job
+      end
+    end
+
+    @stackoverflow_jobs = pre_stackoverflow.sort_by { |job| job["updated"] }.reverse
 
     authentic_response = HTTParty.get("http://www.authenticjobs.com/api/?api_key=#{ENV["AUTHENTIC_JOBS_API_KEY"]}&method=aj.jobs.search&keywords=#{@keywords}&location=#{@location}&perpage=20&begin_date=#{1.month.ago.to_i}&format=json")
     @authentic_jobs = JSON.parse(authentic_response.body)
 
     github_response = HTTParty.get("http://jobs.github.com/positions.json?description=#{@keywords}&location=#{@location}")    
     @github_jobs = JSON.parse(github_response.body)
+
+    we_work_remote_response = HTTParty.get("https://weworkremotely.com/categories/2/jobs.rss")
+    @we_work_remote_jobs = manipulate_xml(Hash.from_xml(we_work_remote_response))
   end
 end

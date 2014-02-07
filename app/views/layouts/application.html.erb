@@ -21,6 +21,8 @@
               <%= label_tag(:location, "City") %>
               <%= text_field_tag(:location) %>
               <%= submit_tag("Search", class: "btn") %> &nbsp
+              <%= check_box_tag(:remote) %>
+              <%= label_tag(:remote, "Include Remote Jobs") %>
             <% end %>
           </div>
         </div>
