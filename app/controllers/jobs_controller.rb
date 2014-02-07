@@ -61,7 +61,7 @@ class JobsController < ApplicationController
     pre_stackoverflow = manipulate_xml(Hash.from_xml(stackoverflow_response))
 
     if @location.present? && params[:remote] == "1"
-      stackoverflow_response_remote = HTTParty.get("http://careers.stackoverflow.com/jobs/feed?allowsremote=true")
+      stackoverflow_response_remote = HTTParty.get("http://careers.stackoverflow.com/jobs/feed?searchTerm=#{@keywords}&allowsremote=true")
       pre_stackoverflow_remote = manipulate_xml(Hash.from_xml(stackoverflow_response_remote))
       pre_stackoverflow_remote.each do |job|
         pre_stackoverflow << job
@@ -76,7 +76,9 @@ class JobsController < ApplicationController
     github_response = HTTParty.get("http://jobs.github.com/positions.json?description=#{@keywords}&location=#{@location}")    
     @github_jobs = JSON.parse(github_response.body)
 
-    we_work_remote_response = HTTParty.get("https://weworkremotely.com/categories/2/jobs.rss")
-    @we_work_remote_jobs = manipulate_xml(Hash.from_xml(we_work_remote_response))
+    if params[:remote] == "1"
+      we_work_remote_response = HTTParty.get("https://weworkremotely.com/categories/2/jobs.rss")
+      @we_work_remote_jobs = manipulate_xml(Hash.from_xml(we_work_remote_response))
+    end
   end
 end
