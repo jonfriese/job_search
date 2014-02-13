@@ -69,7 +69,12 @@ class JobsController < ApplicationController
         pre_stackoverflow.uniq! { |job| job["link"] }
       end
     end
-    @stackoverflow_jobs = pre_stackoverflow.sort_by { |job| job["updated"] }.reverse
+    if pre_stackoverflow.is_a? Array
+      @stackoverflow_jobs = pre_stackoverflow.sort_by { |job| job["updated"] }.reverse
+    else
+      @stackoverflow_jobs = []
+      @stackoverflow_jobs << pre_stackoverflow
+    end
 
     #authentic_jobs
     authentic_response = HTTParty.get("http://www.authenticjobs.com/api/?api_key=#{ENV["AUTHENTIC_JOBS_API_KEY"]}&method=aj.jobs.search&keywords=#{@keywords}&location=#{@location}&perpage=20&begin_date=#{1.month.ago.to_i}&format=json")

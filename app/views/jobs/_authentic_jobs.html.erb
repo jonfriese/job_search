@@ -9,7 +9,7 @@
         <% company = "" %>
       <% end %>
       <% if job["telecommuting"] == 1 %>
-        <% company << " (remote)" %>
+        <% company << " (Remote)" %>
       <% end %>
       <%= link_to job["title"] + company, job["url"] %>
       <br>
